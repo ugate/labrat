@@ -1,2 +1,2 @@
 # labrat
-Run &lt;a href="https://github.com/hapijs/lab">@hapi/lab&lt;/a> tests on vanilla test suites
+Run [@hapi/lab](https://github.com/hapijs/lab) tests on vanilla test suites
