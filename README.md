@@ -51,15 +51,19 @@ lab.experiment(plan, () => {
 Tests can be ran in a `Node.js` command or in [@hapi/lab](https://github.com/hapijs/lab).
 
 Run in node:
+
 `node test/lib/tester.js -NODE_ENV=test`
 
 Run _myTest1_ in node:
+
 `node test/lib/tester.js -NODE_ENV=test myTest1`
 
 Run in [@hapi/lab](https://github.com/hapijs/lab):
+
 `"node_modules/.bin/lab" test/tester.js -v`
 
 Run _myTest1_ in [@hapi/lab](https://github.com/hapijs/lab):
+
 `"node_modules/.bin/lab" test/tester.js -vi 1`
 
 Run _myTest2_ in [@hapi/lab](https://github.com/hapijs/lab):
