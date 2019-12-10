@@ -1,0 +1,29 @@
+{
+  "name": "@ugate/labrat",
+  "version": "1.0.0",
+  "description": "Run @hapi/lab tests on vanilla test suites",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ugate/labrat.git"
+  },
+  "keywords": [
+    "lab",
+    "code",
+    "hapi"
+  ],
+  "author": "ugate",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ugate/labrat/issues"
+  },
+  "homepage": "https://github.com/ugate/labrat#readme",
+  "dependencies": {},
+  "devDependencies": {
+    "@hapi/code": "^7.0.0",
+    "@hapi/lab": "^21.0.0"
+  }
+}
