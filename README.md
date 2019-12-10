@@ -67,4 +67,5 @@ Run _myTest1_ in [@hapi/lab](https://github.com/hapijs/lab):
 `"node_modules/.bin/lab" test/tester.js -vi 1`
 
 Run _myTest2_ in [@hapi/lab](https://github.com/hapijs/lab):
+
 `"node_modules/.bin/lab" test/tester.js -vi 2`
