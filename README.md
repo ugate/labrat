@@ -37,7 +37,7 @@ class Tester {
   }
 }
 
-// when not ran in a test runner execute static Tester functions (excluding what's passed into Labrat.run) 
+// when not ran in a test runner execute static Tester static functions
 if (!Labrat.usingTestRunner()) {
   (async () => await Labrat.run(Tester))();
 }
