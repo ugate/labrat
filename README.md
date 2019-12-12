@@ -11,12 +11,28 @@ const { Labrat, LOGGER } = require('@ugate/labrat');
 
 class Tester {
 
+  static async before() {
+    // OPTIONAL: run before all tests
+  }
+
+  static async after() {
+    // OPTIONAL: run after all tests
+  }
+
+  static async beforeEach() {
+    // OPTIONAL: run before each test
+  }
+
+  static async afterEach() {
+    // OPTIONAL: run after each test
+  }
+
   static myTest1() {
     if (LOGGER.info) LOGGER.info('Show this when info level enabled');
     // test here
   }
 
-  async static myTest2() {
+  static async myTest2() {
     // test here
   }
 }
