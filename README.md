@@ -1,5 +1,5 @@
-# @ugate/labrat 🐁
-Run [@hapi/lab](https://github.com/hapijs/lab) tests on vanilla test suites
+# 🐭 @ugate/labrat
+🐁 Run [@hapi/lab](https://github.com/hapijs/lab) tests on vanilla test suites
 
 `npm install -D @ugate/labrat`
 
