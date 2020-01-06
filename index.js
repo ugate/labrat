@@ -110,6 +110,15 @@ class Labrat {
     return rtn;
   }
 
+ /**
+  * Logs a message with header formatting
+  * @param {String} msg The message to log
+  * @param {String} level The log level to execute
+  */
+  static header(msg, level = 'info') {
+    if (log && log[level]) log[level](`\n\x1b[37m\x1b[44m---> ${msg} <---\x1b[0m\x1b[40m`);
+  }
+
   /**
    * @returns {Boolean} `true` when the process is being ran from a _test utility_
    */
