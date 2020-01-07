@@ -120,6 +120,30 @@ class Labrat {
   }
 
   /**
+   * Convenience function that will handle expected thrown errors
+   * @param {Function} expect The `@hapi/code` expect function
+   * @param {String} type The `flags` type/name that will be set on incoming flags (e.g. `onUnhandledRejection`)
+   * @param {String} label The label that will be used for `expect`
+   * @param {String} [code] The `Error.code` that will be expected
+   * @param {Function} func A _test_ function with a signature of `async function(flags)` that `@hapi/lab` accepts
+   */
+  static expectFailure(expect, type, label, code, func) {
+    return flags => {
+      return new Promise(resolve => {
+        flags[type] = err => {
+          if (log.info || log.debug) {
+            (log.debug || log.info)(`Expected error message received for${code ? ` (code ${err.code})` : ''}: ${err.message}`, LOGGER.debug ? err : '');
+          }
+          expect(err, label).to.be.error();
+          if (code) expect(err.code, `${label} error.code`).to.equal(code);
+          resolve();
+        };
+        return func();
+      });
+    };
+  }
+
+  /**
    * @returns {Boolean} `true` when the process is being ran from a _test utility_
    */
   static usingTestRunner() {
