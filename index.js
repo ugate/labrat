@@ -15,22 +15,6 @@ exports.LOGGER = log;
 class Labrat {
 
   /**
-   * Async test that will either `resolve`/`reject` after a given amount of time
-   * @async
-   * @param {Integer} delay The delay in milliseconds to wait before resolving/rejecting
-   * @param {*} [val] The value to return when resolved or error message/Error when rejecting
-   * @param {Boolean} [rejectIt] `true` to reject, otherwise resolve
-   */
-  static wait(delay, val, rejectIt) {
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        if (rejectIt) reject(val instanceof Error ? val : new Error(val));
-        else resolve(val);
-      }, delay);
-    });
-  }
-
-  /**
    * Runs a function from a class using `return Clazz[process.argv[2]](...args)`
    * __or__ runs through all of the `async` functions from `Object.getOwnPropertyNames(Clazz)` via
    * `await Clazz[propertyName](...args)` other than function names that are found in `excludes` or
@@ -121,7 +105,7 @@ class Labrat {
 
   /**
    * Convenience function that will handle expected thrown errors
-   * @param {String} type The `flags` type/name that will be set on incoming flags (e.g. `onUnhandledRejection`)
+   * @param {(String | String[])} type The `flags` type/name that will be set on incoming flags (e.g. `onUnhandledRejection`, `onUncaughtException`, etc.)
    * @param {Object} opts The failure options
    * @param {Function} opts.expect The `@hapi/code` expect function
    * @param {String} [opts.label] The label that will be used for `expect`
@@ -129,23 +113,42 @@ class Labrat {
    * @param {Function} func A _test_ function with a signature of `async function(flags)` that `@hapi/lab` accepts
    */
   static expectFailure(type, opts, func) {
-    if (!type || typeof type !== 'string') throw new Error(`A failure "type" is required to be a string value set on "flags[type]". Found: ${type}`);
+    if (!type || (typeof type !== 'string' && !Array.isArray(type))) throw new Error(`A failure "type" is required to be a string or string[] set on "flags[type]". Found: ${type}`);
     if (!opts || typeof opts !== 'object') throw new Error(`Failure options are required. Found: ${opts}`);
     if (!opts.expect || typeof opts.expect !== 'function') throw new Error(`A failure "options.expect" is required to be a @hapi/code function. Found: ${opts.expect}`);
     if (!func || typeof func !== 'function') throw new Error(`A failure "func" is required to be a no-argument function. Found: ${func}`);
     return flags => {
       return new Promise(resolve => {
-        flags[type] = err => {
-          if (log.info || log.debug) {
-            (log.debug || log.info)(`Expected error message received for${opts.code ? ` (code ${err.code})` : ''}: ${err.message}`, log.debug ? err : '');
-          }
-          opts.expect(err, opts.label).to.be.error();
-          if (opts.code) opts.expect(err.code, `${opts.label || ''} error.code`).to.equal(opts.code);
-          resolve();
-        };
+        const types = Array.isArray(type) ? type : [type];
+        for (let typ of types) {
+          flags[typ] = err => {
+            if (log.info || log.debug) {
+              (log.debug || log.info)(`Expected error message received for${opts.code ? ` (code ${err.code})` : ''}: ${err.message}`, log.debug ? err : '');
+            }
+            opts.expect(err, opts.label).to.be.error();
+            if (opts.code) opts.expect(err.code, `${opts.label || ''} error.code`).to.equal(opts.code);
+            resolve();
+          };
+        }
         return func();
       });
     };
+  }
+
+  /**
+   * Async test that will either `resolve`/`reject` after a given amount of time
+   * @async
+   * @param {Integer} delay The delay in milliseconds to wait before resolving/rejecting
+   * @param {*} [val] The value to return when resolved or error message/Error when rejecting
+   * @param {Boolean} [rejectIt] `true` to reject, otherwise resolve
+   */
+  static wait(delay, val, rejectIt) {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        if (rejectIt) reject(val instanceof Error ? val : new Error(val));
+        else resolve(val);
+      }, delay);
+    });
   }
 
   /**
