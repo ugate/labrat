@@ -129,8 +129,8 @@ class Labrat {
    * @param {Function} func A _test_ function with a signature of `async function(flags)` that `@hapi/lab` accepts
    */
   static expectFailure(type, opts, func) {
-    if (!type || typeof type !== 'string') throw new Error('A failure "type" is required to be a string value set on "flags[type]"');
-    if (!opts || typeof type !== 'object') throw new Error(`Failure options are required. Found: ${opts}`);
+    if (!type || typeof type !== 'string') throw new Error(`A failure "type" is required to be a string value set on "flags[type]". Found: ${type}`);
+    if (!opts || typeof opts !== 'object') throw new Error(`Failure options are required. Found: ${opts}`);
     if (!opts.expect || typeof opts.expect !== 'function') throw new Error(`A failure "options.expect" is required to be a @hapi/code function. Found: ${opts.expect}`);
     if (!func || typeof func !== 'function') throw new Error(`A failure "func" is required to be a no-argument function. Found: ${func}`);
     return flags => {
