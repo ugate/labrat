@@ -121,21 +121,26 @@ class Labrat {
 
   /**
    * Convenience function that will handle expected thrown errors
-   * @param {Function} expect The `@hapi/code` expect function
    * @param {String} type The `flags` type/name that will be set on incoming flags (e.g. `onUnhandledRejection`)
-   * @param {String} label The label that will be used for `expect`
-   * @param {String} [code] The `Error.code` that will be expected
+   * @param {Object} opts The failure options
+   * @param {Function} opts.expect The `@hapi/code` expect function
+   * @param {String} [opts.label] The label that will be used for `expect`
+   * @param {String} [opts.code] The `Error.code` that will be expected
    * @param {Function} func A _test_ function with a signature of `async function(flags)` that `@hapi/lab` accepts
    */
-  static expectFailure(expect, type, label, code, func) {
+  static expectFailure(type, opts, func) {
+    if (!type || typeof type !== 'string') throw new Error('A failure "type" is required to be a string value set on "flags[type]"');
+    if (!opts || typeof type !== 'object') throw new Error(`Failure options are required. Found: ${opts}`);
+    if (!opts.expect || typeof opts.expect !== 'function') throw new Error(`A failure "options.expect" is required to be a @hapi/code function. Found: ${opts.expect}`);
+    if (!func || typeof func !== 'function') throw new Error(`A failure "func" is required to be a no-argument function. Found: ${func}`);
     return flags => {
       return new Promise(resolve => {
         flags[type] = err => {
           if (log.info || log.debug) {
-            (log.debug || log.info)(`Expected error message received for${code ? ` (code ${err.code})` : ''}: ${err.message}`, LOGGER.debug ? err : '');
+            (log.debug || log.info)(`Expected error message received for${opts.code ? ` (code ${err.code})` : ''}: ${err.message}`, log.debug ? err : '');
           }
-          expect(err, label).to.be.error();
-          if (code) expect(err.code, `${label} error.code`).to.equal(code);
+          opts.expect(err, opts.label).to.be.error();
+          if (opts.code) opts.expect(err.code, `${opts.label || ''} error.code`).to.equal(opts.code);
           resolve();
         };
         return func();
