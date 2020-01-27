@@ -1,6 +1,6 @@
 {
   "name": "@ugate/labrat",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "Run @hapi/lab tests on vanilla test suites",
   "main": "index.js",
   "scripts": {
