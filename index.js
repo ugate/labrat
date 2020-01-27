@@ -88,7 +88,11 @@ class Labrat {
       }
     }
     if (error) {
-      if (error.cause) throw new Error(`\n${error.cause} ... Execution aborted!`);
+      if (error.cause) {
+        const nerr = new Error(`\n${error.message}\n${error.cause} ... Execution aborted!`);
+        nerr.cause = error;
+        throw nerr;
+      }
       throw error;
     }
     return rtn;
