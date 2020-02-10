@@ -1,9 +1,13 @@
 'use strict';
 
 const argv = process.argv.slice(2);
-const log = process.env.NODE_ENV === 'test' || argv.includes('-NODE_ENV=test') ?
+const log = process.env.NODE_ENV === 'production' || argv.includes('-NODE_ENV=production') || process.env.NODE_ENV === 'prod' || argv.includes('-NODE_ENV=prod') ?
+  { warn: console.warn, error: console.error } :
+  process.env.NODE_ENV === 'test' || argv.includes('-NODE_ENV=test') ?
   { info: console.info, warn: console.warn, error: console.error } : 
-  process.env.NODE_ENV === 'dev' || argv.includes('-NODE_ENV=dev') ? console : {};
+  process.env.NODE_ENV === 'development' || argv.includes('-NODE_ENV=development') || process.env.NODE_ENV === 'dev' || argv.includes('-NODE_ENV=dev') ?
+  console : 
+  {};
 // TODO : ESM comment the following line...
 exports.LOGGER = log;
 // TODO : ESM uncomment the following lines...

@@ -78,8 +78,9 @@ lab.experiment(plan, () => {
 
 #### Log Levels
 
--   `-NODE_ENV=dev` - All levels/functions included in _console_
+-   `-NODE_ENV=development` or `-NODE_ENV=dev` - All levels/functions included in _console_
 -   `-NODE_ENV=test` - Includes _console.info_, _console.warn_, _console.error_
+-   `-NODE_ENV=production` or `-NODE_ENV=prod` - Includes _console.warn_, _console.error_
 -   Omit or set to another environment to disable logging
 
 #### Running Tests
