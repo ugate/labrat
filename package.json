@@ -24,6 +24,7 @@
   "dependencies": {},
   "devDependencies": {
     "@hapi/code": "^7.0.0",
-    "@hapi/lab": "^21.0.0"
+    "@hapi/lab": "^21.0.0",
+    "documentation": "^12.1.4"
   }
 }
